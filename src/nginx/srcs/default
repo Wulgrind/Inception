@@ -17,10 +17,17 @@
 ##
 
 # Default server configuration
-#
+
 server {
 	listen 80;
 	listen [::]:80;
+	server_name inception;
+	return 301 https://$host$request_uri;
+}
+
+server {
+	#listen 80;
+	#listen [::]:80;
 
 	# SSL configuration
 	#
@@ -41,14 +48,16 @@ server {
 	#
   #include snippets/snakeoil.conf;
 
-	ssl_certificate /etc/nginx/ssl/localhost.pem;
-	ssl_certificate_key /etc/nginx/ssl/localhost.key;
-	root /var/www/localhost;
+	ssl_certificate /etc/nginx/ssl/qbrillai.42.fr.pem;
+	ssl_certificate_key /etc/nginx/ssl/qbrillai.42.fr.key;
+	ssl_protocols TLSv1.2 TLSv1.3;
+
+	root /var/www/html;
 
 	# Add index.php to the list if you are using PHP
 	index index.php index.html index.htm index.nginx-debian.html;
 
-	server_name _;
+	server_name inception;
 
 	location /{
 		# First attempt to serve request as file, then
