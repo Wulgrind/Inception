@@ -1,13 +1,18 @@
 version: '2.2'
 services:
   
-    nginx:
-     container_name: nginx
-     build: src/nginx/
-     ports:
-       - "80:80"
-       - "443:443"
-     volumes:
-      - ./app:/usr/share/nginx/html
-      - ./app:/var/www/html
-     restart : always
+        nginx:
+                container_name: nginx
+                build: src/nginx/
+                ports:
+                #- "80:80"
+                 - "443:443"
+                volumes:
+                 - ./app:/var/www/html
+                restart : always
+                networks :
+                 - frontend
+
+networks :
+        frontend:
+        backend:
