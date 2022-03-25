@@ -13,6 +13,22 @@ services:
                 networks :
                  - frontend
 
-networks :
-        frontend:
-        backend:
+        mysql:
+                container_name: mariadb
+                build : src/mariadb
+                volumes:
+                 - /data/mysql:/var/lib/mysql
+                environment:
+                 MYSQL_ROOT_PASSWORD: mysql_root_pass
+                 MYSQL_DATABASE: db_name
+                 MYSQL_USER: user_name
+                 MYSQL_PASSWORD: user_pass
+                 restart: always
+                 networks :
+                  - frontend
+                  - backend
+              
+              
+        networks :
+         frontend:
+         backend:
