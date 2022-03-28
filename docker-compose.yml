@@ -1,11 +1,11 @@
 version: '2.2'
 services:
   
-        nginx:
+        nginx: #CHanger nom de domaine dans VM
                 container_name: nginx
                 build: src/nginx/
                 ports:
-                #- "80:80"
+                 - "80:80"
                  - "443:443"
                 volumes:
                  - ./app:/var/www/html
@@ -15,20 +15,28 @@ services:
 
         mysql:
                 container_name: mariadb
-                build : src/mariadb
-                volumes:
-                 - /data/mysql:/var/lib/mysql
+                build : src/mariadb/
+                ports :
+                 - "3306:3306"
+          #      volumes: A ajouter dans la vm sinon ca bug
+           #      - ./mysql:/var/lib/mysql
                 environment:
                  MYSQL_ROOT_PASSWORD: mysql_root_pass
                  MYSQL_DATABASE: db_name
                  MYSQL_USER: user_name
                  MYSQL_PASSWORD: user_pass
-                 restart: always
-                 networks :
-                  - frontend
-                  - backend
+                restart: always
+                networks :
+                 - backend
+        
+      #  wordpress:
+        #        container_name : wordpress
+         #       build : src/wordpress
+         #       ports :
+         #        - "9000:9000"
+
               
               
-        networks :
-         frontend:
-         backend:
+networks :
+ frontend:
+ backend:
