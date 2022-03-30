@@ -16,10 +16,11 @@ services:
         mysql:
                 container_name: mariadb
                 build : src/mariadb/
+                #image : 'mariadb:10.3'
                 ports :
                  - "3306:3306"
-          #      volumes: A ajouter dans la vm sinon ca bug
-           #      - ./mysql:/var/lib/mysql
+                volumes: 
+                 - ${PWD}/mysql:/var/lib/mysql
                 environment:
                  MYSQL_ROOT_PASSWORD: mysql_root_pass
                  MYSQL_DATABASE: db_name
