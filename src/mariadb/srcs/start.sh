@@ -11,8 +11,13 @@ service mysql restart
 
 #echo FLUSH PRIVILEGES;
 
-#service mysql restart
-sleep infinity
+#sleep infinity
 
-#exec mysqld --user=mysql --console
+service mysql stop
+
+mysqld
+#exec mysqld
+
+#service mysql restart
+#exec /etc/init.d/mysqld
 #exec mysqld --user=mysql --console

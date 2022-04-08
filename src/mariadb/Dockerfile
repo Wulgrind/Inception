@@ -8,12 +8,12 @@ RUN apt-get update
 RUN apt-get install -y mariadb-server
 #RUN apt-get install -y vim
 
-RUN mkdir -p /run/mysqld 
-RUN mkdir -p /var/lib/mysql
-RUN chown -R mysql:mysql /run/mysqld
-RUN chown mysql:mysql var/run/mysqld 
-RUN chown mysql:mysql /var/lib/mysql
-RUN mysql_install_db --user=mysql --datadir='/var/lib/mysql'
+#RUN mkdir -p /run/mysqld 
+#RUN mkdir -p /var/lib/mysql
+#RUN chown -R mysql:mysql /run/mysqld
+#RUN chown mysql:mysql var/run/mysqld 
+#RUN chown mysql:mysql /var/lib/mysql
+#RUN mysql_install_db --user=mysql --datadir='/var/lib/mysql'
 #RUN mariadb-install-db --user=mysql --datadir='/var/lib/mysql'
 
 COPY ./srcs/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf

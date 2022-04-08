@@ -1,17 +1,5 @@
 version: '2.2'
 services:
-  
-        nginx: #CHanger nom de domaine dans VM
-                container_name: nginx
-                build: src/nginx/
-                ports:
-                 - "80:80"
-                 - "443:443"
-                volumes:
-                 - ./app:/var/www/html
-                restart : always
-                networks :
-                 - frontend
 
         mysql:
                 container_name: mariadb
@@ -29,13 +17,46 @@ services:
                 restart: always
                 networks :
                  - backend
-        
-      #  wordpress:
-        #        container_name : wordpress
-         #       build : src/wordpress
-         #       ports :
-         #        - "9000:9000"
 
+        wordpress:
+                container_name : wordpress
+                build : src/wordpress/
+                #image: wordpress:php7.3-fpm-alpine
+                volumes:
+                 - ./app:/var/www/localhost
+                depends_on: # Permet d arreter et demarrer les services dans l ordre de dependance.
+                 - mysql
+                ports :
+                 - "9000:9000"
+                environment:
+                 WORDPRESS_DB_HOST: mysql
+                 MYSQL_ROOT_PASSWORD: mysql_root_pass
+                 WORDPRESS_DB_NAME: db_name
+                 WORDPRESS_DB_USER: user_name
+                 WORDPRESS_DB_PASSWORD: user_pass
+                 WORDPRESS_TABLE_PREFIX: wp_
+                #links:
+               #  - mysql
+                restart: always
+                networks :
+                 - backend
+                 - frontend
+
+        nginx: #Changer nom de domaine dans VM
+                container_name: nginx
+                build: src/nginx/
+               # image: nginx:alpine
+                ports:
+                 - "80:80"
+                 - "443:443"
+                volumes:
+                 - ./app:/var/www/html
+                # - ./nginx:/etc/nginx/conf.d
+                restart : always
+                networks :
+                 - frontend
+                #links:
+                # - wordpress
               
               
 networks :
