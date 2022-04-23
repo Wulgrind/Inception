@@ -1,28 +1,17 @@
-#mysql_install_db --defaults-file=~/.my.cnf
+/usr/bin/mysql_install_db --user=root --basedir='/usr' --datadir='/var/lib/mysql'
+/usr/bin/mysqld --user=root --datadir='/var/lib/mysql' &
+sleep 2
 
-#userdel mysql
-#useradd -u 999 mysql
-#mysql_install_db
+mysql -e "CREATE DATABASE IF NOT EXISTS \`$MYSQL_NAME\` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;"
+mysql -e "CREATE USER IF NOT EXISTS \`$MYSQL_USER\` IDENTIFIED BY '$MYSQL_PASSWORD';"
+mysql -e "GRANT ALL PRIVILEGES ON *.* TO \`$MYSQL_USER\` WITH GRANT OPTION;"
+mysql -e "DELETE FROM mysql.user WHERE User='';"
+mysql -e "DROP DATABASE test;"
+mysql -e "DELETE FROM DB WHERE Db='test' OR Db='test/_%';"
+mysql -e "UPDATE USER set plugin='' WHERE User='root';"
+mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';"
+mysql -e "FLUSH PRIVILEGES;"
 
-service mysql start
-echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_NAME\` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;" | mysql -u root
-echo "CREATE USER IF NOT EXISTS \`$MYSQL_USER\` IDENTIFIED BY '$MYSQL_PASSWORD';" | mysql -u root
-echo "GRANT ALL PRIVILEGES ON *.* TO \`$MYSQL_USER\` WITH GRANT OPTION;" |mysql -u root
-echo "FLUSH PRIVILEGES;" | mysql -u root
+pkill mysqld
 
-
-#echo "GRANT ALL ON *.* TO 'quentin'@'localhost' IDENTIFIED BY '123'" | mysql -u root
-#echo "FLUSH PRIVILEGES;" | mysql -u root
-
-#echo FLUSH PRIVILEGES;
-
-#sleep infinity
-
-service mysql stop
-
-mysqld
-#exec mysqld
-
-#service mysql restart
-#exec /etc/init.d/mysqld
-#exec mysqld --user=mysql --console
+/usr/bin/mysqld --user=root --datadir=/var/lib/mysql

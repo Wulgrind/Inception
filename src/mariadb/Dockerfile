@@ -1,33 +1,20 @@
-FROM debian:buster
+FROM alpine:3.13
 
-#RUN apk -U upgrade && apk add mariadb mariadb-client bash
+RUN apk update
+RUN apk upgrade
+RUN apk add vim mariadb mariadb-client mariadb-common mariadb-server-utils
+RUN rm -rf /var/cache/apk/*
+RUN mkdir -p /run/mysqld /var/lib/mysql
+RUN chown -R mysql /var/lib/mysql
+RUN chmod 777 /var/lib/mysql
 
-RUN groupadd -r mysql && useradd -r -g mysql mysql
+COPY ./srcs/start.sh ./start.sh
+COPY ./srcs/mariadb-server.cnf ./etc/my.cnf.d/my.cnf
+COPY ./srcs/mariadb-server.cnf ./etc/mysql/my.cnf
 
-RUN apt-get update
-RUN apt-get install -y mariadb-server
-#RUN apt-get install -y vim
+RUN chmod 0444 /etc/mysql/my.cnf
+RUN chmod 0444 /etc/my.cnf.d/my.cnf
 
-#RUN mkdir -p /run/mysqld 
-#RUN mkdir -p /var/lib/mysql
-#RUN chown -R mysql:mysql /run/mysqld
-#RUN chown mysql:mysql var/run/mysqld 
-#RUN chown mysql:mysql /var/lib/mysql
-#RUN mysql_install_db --user=mysql --datadir='/var/lib/mysql'
-#RUN mariadb-install-db --user=mysql --datadir='/var/lib/mysql'
+EXPOSE 3306
 
-COPY ./srcs/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
-RUN chown -R mysql:mysql /etc/my.cnf.d
-#USER mysql
-
-COPY srcs/start.sh ./
-
-VOLUME /var/lib/mysql
-#RUN mkdir -p /data/mysql
-#RUN chown -R mysql:mysql /data/mysql
-#@CMD ["sh", "start.sh"]
-#CMD ["mariadb", "-g", "mysqld;"]
-
-CMD bash /start.sh
-#ENTRYPOINT ["nginx", "-g", "daemon off;"]
-
+CMD [ "ash", "start.sh" ]
