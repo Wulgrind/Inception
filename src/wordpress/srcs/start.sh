@@ -1,29 +1,18 @@
+
+   
 echo "clear_env=false" >> etc/php7/php-fpm.conf
-
-#PHPMYADMIN
-
-wget https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.tar.gz
-tar xvf phpMyAdmin-4.9.0.1-all-languages.tar.gz
-#mv phpMyAdmin-4.9.0.1-all-languages var/www/localhost/phpmyadmin
-mv ./config.inc.php var/www/localhost/phpmyadmin
-chmod 666 /var/www/localhost/phpmyadmin/config.inc.php
-chown -R www-data:www-data /var/www/localhost/phpmyadmin
-service php7.3-fpm start
-echo "GRANT ALL ON *.* TO 'quentin'@'localhost' IDENTIFIED BY '123'" | mysql -u root
-echo "FLUSH PRIVILEGES;" | mysql -u root
-
-#WORDPRESS
-
-wget https://wordpress.org/latest.tar.gz
-tar xvf latest.tar.gz
-cp -a wordpress/. /var/www/localhost/wordpress
-mv ./wp-config.php /var/www/localhost/wordpress
-
-#PHP
-
-cp info.php /var/www/localhost/info.php
-#php7.3-fpm restarts
-
-
+#mv ./wp-config.php /var/www/localhost/wordpress/
+# wget https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php
+# mv ./adminer-4.8.1.php /var/www/localhost/wordpress/adminer.php
+wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+wp --allow-root core download --path="/var/www/localhost/wordpress/"
+mv ./wp-config.php /var/www/localhost/wordpress/
+sleep 5
+wp --allow-root core install --url="$DOMAIN_NAME" --path="/var/www/localhost/wordpress/" --title="Inception" --admin_user=$WP_ADMIN_NAME --admin_password=$WP_ADMIN_PASSWORD --admin_email="test@test.fr"
+wp --allow-root user create $WP_USER_NAME "test2@test.fr" --user_pass=$WP_USER_PASSWORD --role='author' --path="/var/www/localhost/wordpress/"
+wp --allow-root --path="/var/www/localhost/wordpress/" plugin install redis-cache --activate
+wp --allow-root --path="/var/www/localhost/wordpress/" plugin update --all
+wp --allow-root --path="/var/www/localhost/wordpress/" redis enable
 exec php-fpm7 -F;
-#sleep infinity

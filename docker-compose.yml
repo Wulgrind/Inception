@@ -2,26 +2,27 @@ version: '2.2'
 services:
 
         mysql:
-                container_name: mariadb
+                container_name: mysql
                 build : src/mariadb/
-                #image : 'mariadb:10.3'
+                #image : 'mariadb'
                 ports :
                  - "3306:3306"
                 volumes: 
                  - ${PWD}/mysql:/var/lib/mysql
                 environment:
-                 MYSQL_ROOT_PASSWORD: mysql_root_pass
-                 MYSQL_DATABASE: db_name
-                 MYSQL_USER: user_name
-                 MYSQL_PASSWORD: user_pass
+                 MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+                 MYSQL_NAME: ${MYSQL_NAME}
+                 MYSQL_USER: ${MYSQL_USER}
+                 MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+                 DOMAIN_NAME: ${DOMAIN_NAME}
                 restart: always
                 networks :
                  - backend
 
         wordpress:
                 container_name : wordpress
-                build : src/wordpress/
-                #image: wordpress:php7.3-fpm-alpine
+                build : src/wordpress
+               # image: wordpress:php7.4-fpm-alpine
                 volumes:
                  - ./app:/var/www/localhost
                 depends_on: # Permet d arreter et demarrer les services dans l ordre de dependance.
@@ -29,12 +30,15 @@ services:
                 ports :
                  - "9000:9000"
                 environment:
-                 WORDPRESS_DB_HOST: mysql
-                 MYSQL_ROOT_PASSWORD: mysql_root_pass
-                 WORDPRESS_DB_NAME: db_name
-                 WORDPRESS_DB_USER: user_name
-                 WORDPRESS_DB_PASSWORD: user_pass
-                 WORDPRESS_TABLE_PREFIX: wp_
+                 #MYSQL_NAME: "test"
+                 MYSQL_NAME: ${MYSQL_NAME}
+                 MYSQL_USER: ${MYSQL_USER}
+                 MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+                 DOMAIN_NAME: ${DOMAIN_NAME}
+                 WP_ADMIN_NAME: ${WP_ADMIN_NAME}
+                 WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+                 WP_USER_NAME: ${WP_USER_NAME}
+                 WP_USER_PASSWORD: ${WP_USER_PASSWORD}
                 #links:
                #  - mysql
                 restart: always
@@ -47,7 +51,7 @@ services:
                 build: src/nginx/
                # image: nginx:alpine
                 ports:
-                 - "80:80"
+                 - "8080:80"
                  - "443:443"
                 volumes:
                  - ./app:/var/www/html
