@@ -7,7 +7,6 @@ RUN apk add vim wget php7 php7-fpm php7-common \
 		php7-imap php7-cgi php7-pdo php7-pdo_mysql \
 		php7-soap php7-xmlrpc php7-posix php7-mcrypt \
 		php7-gettext php7-ldap php7-ctype php7-dom wget php7-phar
-		
 RUN rm -rf /var/cache/apk/*
 RUN mkdir -p /var/www/localhost/wordpress
 RUN chmod -R 777 /var/www/localhost
@@ -21,4 +20,4 @@ COPY ./srcs/wp-config.php ./
 
 EXPOSE 9000
 
-CMD [ "sh", "start.sh" ]
+CMD [ "ash", "start.sh" ]
