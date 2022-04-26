@@ -4,7 +4,6 @@ services:
         mariadb:
                 container_name: mariadb
                 build : src/mariadb/
-                #image : 'mariadb'
                 volumes: 
                  - ${PWD}/mysql:/var/lib/mysql
                 environment:
@@ -20,13 +19,11 @@ services:
         wordpress:
                 container_name : wordpress
                 build : src/wordpress
-                #image: wordpress:php7.4-fpm-alpine
                 volumes:
                  - ./app:/var/www/localhost/wordpress
                 depends_on: # Permet d arreter et demarrer les services dans l ordre de dependance.
                  - mariadb
                 environment:
-                 #MYSQL_NAME: "test"
                  MYSQL_NAME: ${MYSQL_NAME}
                  MYSQL_USER: ${MYSQL_USER}
                  MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -44,18 +41,13 @@ services:
         nginx: #Changer nom de domaine dans VM
                 container_name: nginx
                 build: src/nginx/
-               # image: nginx:alpine
                 ports:
-                 - "8080:80"
                  - "443:443"
                 volumes:
                  - ./app:/var/www/localhost/wordpress
-                # - ./nginx:/etc/nginx/conf.d
                 restart : always
                 networks :
                  - frontend
-                #links:
-                # - wordpress
               
               
 networks:
