@@ -29,19 +29,13 @@ define( 'DB_USER', getenv('MYSQL_USER') );
 define( 'DB_PASSWORD', getenv('MYSQL_PASSWORD') );
 
 /** MySQL hostname */
-define( 'DB_HOST', 'mysql' );
+define( 'DB_HOST', 'mariadb' );
 
 /** Database Charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
 
 /** The Database Collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', 'utf8_bin' );
-
-define( 'WP_REDIS_HOST', 'redis');
-define( 'WP_REDIS_PORT', '6379');
-define( 'WP_REDIS_DATABASE', 0 );
-define( 'WP_REDIS_TIMEOUT', 1 );
-define( 'WP_REDIS_READ_TIMEOUT', 1 );
 
 /**#@+
  * Authentication Unique Keys and Salts.
@@ -83,8 +77,8 @@ $table_prefix = 'wp_';
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
-define( 'WP_SITEURL', '127.0.0.1' );
-define( 'WP_HOME', '127.0.0.1' );
+define( 'WP_SITEURL', 'https://127.0.0.1' );
+define( 'WP_HOME', 'https://127.0.0.1' );
 define( 'WP_DEBUG', false );
 define('CONCATENATE_SCRIPTS', false);
 define( 'WP_CACHE_KEY_SALT', '127.0.0.1' );
