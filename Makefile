@@ -1,5 +1,5 @@
 all:
-	cd srcs && docker-compose up --build
+	cd srcs && docker-compose up -d --build
 
 clean:
 	cd srcs && docker-compose down --volumes
@@ -7,5 +7,5 @@ clean:
 re: clean all
 
 fclean: clean
-	sudo rm -rf /home/qbrillai.42.fr/data/wordpress/*
-	sudo rm -rf /home/qbrillai.42,fr/data/mariadb/*
+	sudo rm -rf /home/qbrillai/data/wordpress/*
+	sudo rm -rf /home/qbrillai/data/mariadb/*

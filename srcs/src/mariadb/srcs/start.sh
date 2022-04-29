@@ -2,6 +2,11 @@
 /usr/bin/mysqld --user=root --datadir='/var/lib/mysql' &
 sleep 2
 
+# -e est egal a : executer puis quitter, plus de securite
+#mariadb --user=(nom du user) --password=(mdp du user)
+#SHOW DABATASES; (pour la liste des db)
+
+
 mysql -e "CREATE DATABASE IF NOT EXISTS \`$MYSQL_NAME\` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;"
 mysql -e "CREATE USER IF NOT EXISTS \`$MYSQL_USER\` IDENTIFIED BY '$MYSQL_PASSWORD';"
 mysql -e "GRANT ALL PRIVILEGES ON *.* TO \`$MYSQL_USER\` WITH GRANT OPTION;"

@@ -77,12 +77,13 @@ $table_prefix = 'wp_';
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
+
+#define( 'WP_DEBUG', true );
 define( 'WP_SITEURL', 'https://qbrillai.42.fr' );
 define( 'WP_HOME', 'https://qbrillai.42.fr' );
 define( 'WP_DEBUG', false );
 define('CONCATENATE_SCRIPTS', false);
 define( 'WP_CACHE_KEY_SALT', 'qbrillai.42.fr' );
-// define( 'WP_REDIS_PASSWORD', 'password' );
 
 /* That's all, stop editing! Happy publishing. */
 

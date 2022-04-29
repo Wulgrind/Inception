@@ -10,4 +10,5 @@ sleep 5
 wp --allow-root core install --url="$DOMAIN_NAME" --path="/var/www/localhost/wordpress/" --title="Inception" --admin_user=$WP_ADMIN_NAME --admin_password=$WP_ADMIN_PASSWORD --admin_email="test@test.fr"
 wp --allow-root user create $WP_USER_NAME "test2@test.fr" --user_pass=$WP_USER_PASSWORD --role='author' --path="/var/www/localhost/wordpress/"
 
-exec php-fpm7 -F -R;
+exec php-fpm7 -F; 
+# -F flag pour ignorer les fichiers de config et le laisser en execution ainsi aqu en premier plan.

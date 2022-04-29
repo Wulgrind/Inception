@@ -5,7 +5,7 @@ services:
                 container_name: mariadb
                 build : src/mariadb/
                 volumes: 
-                 - /home/qbrillai.42.fr/data/mariadb:/var/lib/mysql
+                 - /home/qbrillai/data/mariadb:/var/lib/mysql
                 environment:
                  MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
                  MYSQL_NAME: ${MYSQL_NAME}
@@ -20,7 +20,7 @@ services:
                 container_name : wordpress
                 build : src/wordpress
                 volumes:
-                 - /home/qbrillai.42.fr/data/wordpress:/var/www/localhost/wordpress
+                 - /home/qbrillai/data/wordpress:/var/www/localhost/wordpress
                 depends_on: # Permet d arreter et demarrer les services dans l ordre de dependance.
                  - mariadb
                 environment:
@@ -44,7 +44,7 @@ services:
                 ports:
                  - "443:443"
                 volumes:
-                 - /home/qbrillai.42.fr/data/wordpress:/var/www/localhost/wordpress
+                 - /home/qbrillai/data/wordpress:/var/www/localhost/wordpress
                 restart : always
                 networks :
                  - frontend
@@ -52,5 +52,19 @@ services:
               
 networks:
     frontend:
-            #        name: frontend
-        driver: bridge
+        name: frontend
+        driver: bridge #Permet d acceder a tous les conteneurs du reseau.
+
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      o: 'bind'
+      type: 'none'
+      device: '/home/qbrillai/data/mariadb'
+  wordpress:
+    driver: local
+    driver_opts:
+      o: 'bind'
+      type: 'none'
+      device: '/home/qbrillai/data/wordpress'
